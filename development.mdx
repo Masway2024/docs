@@ -1,94 +1,171 @@
 ---
-title: 'Development'
-description: 'Preview changes locally to update your docs'
+title: 'Architecture'
+description: 'System architecture and technical components of AgriSense AI'
 ---
 
-<Info>
-  **Prerequisites**:
-  - Node.js version 19 or higher
-  - A docs repository with a `docs.json` file
-</Info>
+## System overview
 
-Follow these steps to install and run Mintlify on your operating system.
+AgriSense AI is built on a modern, scalable architecture that combines mobile computing with cloud-based AI services to deliver real-time crop disease detection and advisory.
 
-<Steps>
-<Step title="Install the Mintlify CLI">
+## Architecture diagram
 
-```bash
-npm i -g mint
 ```
-</Step>
-
-<Step title="Preview locally">
-
-Navigate to your docs directory where your `docs.json` file is located, and run the following command:
-
-```bash
-mint dev
-```
-
-A local preview of your documentation will be available at `http://localhost:3000`.
-
-</Step>
-</Steps>
-
-## Custom ports
-
-By default, Mintlify uses port 3000. You can customize the port Mintlify runs on by using the `--port` flag. For example, to run Mintlify on port 3333, use this command:
-
-```bash
-mint dev --port 3333
+┌─────────────────┐
+│  Mobile App     │
+│  (Android/ADK)  │
+└────────┬────────┘
+         │
+         ├──────────────────┐
+         │                  │
+         ▼                  ▼
+┌─────────────────┐  ┌──────────────┐
+│  Vertex AI      │  │  Google      │
+│  Vision API     │  │  Genkit      │
+│  (Detection)    │  │  (Advisory)  │
+└─────────────────┘  └──────────────┘
+         │                  │
+         └──────────┬───────┘
+                    │
+                    ▼
+         ┌──────────────────┐
+         │  Local Storage   │
+         │  (Offline Cache) │
+         └──────────────────┘
 ```
 
-If you attempt to run Mintlify on a port that's already in use, it will use the next available port:
-
-```md
-Port 3000 is already in use. Trying 3001 instead.
-```
-
-## Mintlify versions
-
-Please note that each CLI release is associated with a specific version of Mintlify. If your local preview does not align with the production version, please update the CLI:
-
-```bash
-npm mint update
-```
-
-## Validating links
-
-The CLI can assist with validating links in your documentation. To identify any broken links, use the following command:
-
-```bash
-mint broken-links
-```
-
-## Deployment
-
-If the deployment is successful, you should see the following:
-
-<Frame>
-  <img src="/images/checks-passed.png" alt="Screenshot of a deployment confirmation message that says All checks have passed." style={{ borderRadius: '0.5rem' }} />
-</Frame>
-
-## Code formatting
-
-We suggest using extensions on your IDE to recognize and format MDX. If you're a VSCode user, consider the [MDX VSCode extension](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx) for syntax highlighting, and [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) for code formatting.
-
-## Troubleshooting
+## Core components
 
 <AccordionGroup>
-  <Accordion title='Error: Could not load the "sharp" module using the darwin-arm64 runtime'>
-
-    This may be due to an outdated version of node. Try the following:
-    1. Remove the currently-installed version of the CLI: `npm remove -g mint`
-    2. Upgrade to Node v19 or higher.
-    3. Reinstall the CLI: `npm i -g mint`
+  <Accordion title="Mobile application (Android/ADK)" icon="mobile">
+    The native Android application serves as the primary user interface:
+    
+    - **Camera integration**: Captures high-quality images of crop leaves
+    - **Image preprocessing**: Optimizes images before sending to Vertex AI
+    - **Local caching**: Stores disease data and recommendations for offline access
+    - **Multi-language support**: Swahili and English localization
+    - **Location services**: Finds nearby agro-vet shops
+    
+    Built with Android Development Kit (ADK) for optimal performance and native features.
   </Accordion>
 
-  <Accordion title="Issue: Encountering an unknown error">
-  
-    Solution: Go to the root of your device and delete the `~/.mintlify` folder. Then run `mint dev` again.
+  <Accordion title="Vertex AI Vision" icon="brain">
+    Google Cloud's Vertex AI provides the disease detection capabilities:
+    
+    - **Image classification**: Trained on African crop disease datasets
+    - **Disease identification**: Recognizes common crop diseases from leaf images
+    - **Confidence scoring**: Provides accuracy metrics for each detection
+    - **Model versioning**: Supports continuous model improvements
+    
+    The model is trained on datasets specific to African crops and environmental conditions.
+  </Accordion>
+
+  <Accordion title="Google Genkit" icon="message-bot">
+    Genkit generates contextual recommendations and advisory content:
+    
+    - **Treatment recommendations**: Provides step-by-step treatment instructions
+    - **Prevention strategies**: Suggests preventive measures for detected diseases
+    - **Localized content**: Uses African agricultural best practices
+    - **Natural language**: Generates human-readable advice in multiple languages
+    
+    Powered by agricultural knowledge bases specific to East African farming practices.
+  </Accordion>
+
+  <Accordion title="Local storage & offline mode" icon="database">
+    SQLite database enables offline functionality:
+    
+    - **Disease database**: Cached information about common crop diseases
+    - **Recommendation cache**: Stores previously generated advice
+    - **Image history**: Maintains user's detection history
+    - **Sync mechanism**: Updates cache when connectivity is available
+    
+    Ensures farmers can use the app even in areas with poor internet connectivity.
   </Accordion>
 </AccordionGroup>
 
-Curious about what changed in the latest CLI version? Check out the [CLI changelog](https://www.npmjs.com/package/mintlify?activeTab=versions).
+## Data flow
+
+<Steps>
+  <Step title="Image capture">
+    User captures a photo of a crop leaf using the mobile app camera
+  </Step>
+  <Step title="Preprocessing">
+    App optimizes the image (resize, compress, format) for API transmission
+  </Step>
+  <Step title="Disease detection">
+    Image is sent to Vertex AI Vision API for classification and disease identification
+  </Step>
+  <Step title="Result processing">
+    App receives disease detection results with confidence scores
+  </Step>
+  <Step title="Advisory generation">
+    Disease information is sent to Genkit to generate treatment recommendations
+  </Step>
+  <Step title="Display & cache">
+    Results and recommendations are displayed to the user and cached locally
+  </Step>
+</Steps>
+
+## Technology stack
+
+### Mobile layer
+- **Language**: Kotlin
+- **Framework**: Android Development Kit (ADK)
+- **UI**: Material Design 3
+- **Camera**: CameraX API
+- **Storage**: SQLite with Room persistence library
+
+### AI/ML layer
+- **Vision AI**: Google Cloud Vertex AI
+- **Model type**: Image classification (CNN-based)
+- **Advisory**: Google Genkit
+- **Training data**: African crop disease datasets
+
+### Infrastructure
+- **Cloud platform**: Google Cloud Platform
+- **Authentication**: Firebase Authentication
+- **Analytics**: Firebase Analytics
+- **Crash reporting**: Firebase Crashlytics
+
+## Security considerations
+
+<CardGroup cols={2}>
+  <Card title="Data privacy" icon="shield">
+    User images and data are processed securely and not stored permanently on cloud servers.
+  </Card>
+  <Card title="API security" icon="key">
+    All API communications use HTTPS with certificate pinning for enhanced security.
+  </Card>
+  <Card title="Offline security" icon="lock">
+    Local database is encrypted to protect sensitive farming data.
+  </Card>
+  <Card title="Authentication" icon="user-shield">
+    Optional user accounts for personalized recommendations and history tracking.
+  </Card>
+</CardGroup>
+
+## Scalability
+
+The architecture is designed for horizontal scalability:
+
+- **Regional deployment**: Can be deployed across multiple African regions
+- **Model training**: New disease models can be trained for different crops and regions
+- **Language expansion**: Additional languages can be added through Genkit
+- **API scaling**: Cloud infrastructure auto-scales based on demand
+
+## Future enhancements
+
+<Accordion title="Weather integration" icon="cloud-sun">
+  Integrate weather APIs to predict disease risk based on environmental conditions.
+</Accordion>
+
+<Accordion title="Community features" icon="users">
+  Enable farmers to share experiences and solutions within the app.
+</Accordion>
+
+<Accordion title="IoT sensors" icon="sensor">
+  Connect with soil and environmental sensors for comprehensive crop monitoring.
+</Accordion>
+
+<Accordion title="Marketplace" icon="store">
+  Expand agro-vet integration into a full marketplace for agricultural supplies.
+</Accordion>
