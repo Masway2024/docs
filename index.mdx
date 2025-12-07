@@ -1,97 +1,115 @@
 ---
 title: "Introduction"
-description: "Welcome to the new home for your documentation"
+description: "AI-powered crop disease detection and advisory system for African farmers"
 ---
 
-## Setting up
+## Welcome to AgriSense AI
 
-Get your documentation site up and running in minutes.
+AgriSense AI is a mobile application that empowers smallholder farmers across Africa with instant crop disease detection and treatment recommendations using artificial intelligence.
 
 <Card
-  title="Start here"
+  title="Get started"
   icon="rocket"
   href="/quickstart"
   horizontal
 >
-  Follow our three step quickstart guide.
+  Set up AgriSense AI and start detecting crop diseases.
 </Card>
 
-## Make it yours
+## The problem we solve
 
-Design a docs site that looks great and empowers your users.
+Smallholder farmers across Africa lose up to 40% of crops annually due to:
 
-<Columns cols={2}>
+- Late detection of crop diseases
+- Limited access to agricultural extension officers
+- Lack of real-time advisory services
+- Expensive and inaccessible diagnostic solutions
+
+## How it works
+
+<Steps>
+  <Step title="Capture">
+    Take a photo of a crop leaf using your mobile device
+  </Step>
+  <Step title="Analyze">
+    Vertex AI Vision analyzes the image and detects diseases
+  </Step>
+  <Step title="Recommend">
+    Google Genkit generates localized prevention and treatment steps
+  </Step>
+  <Step title="Act">
+    Get instant recommendations and find nearby agro-vet shops
+  </Step>
+</Steps>
+
+## Key features
+
+<CardGroup cols={2}>
   <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
+    title="AI-powered detection"
+    icon="brain"
   >
-    Edit your docs locally and preview them in real time.
-  </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
-  </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
-  </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
-  </Card>
-</Columns>
-
-## Create beautiful pages
-
-Everything you need to create world-class documentation.
-
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
+    Vertex AI Vision identifies crop diseases from leaf images with high accuracy.
   </Card>
   <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
+    title="Real-time advisory"
+    icon="message-bot"
   >
-    Add sample code to demonstrate how to use your product.
+    Google Genkit provides instant treatment recommendations using African agricultural data.
   </Card>
   <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
+    title="Offline mode"
+    icon="wifi-slash"
   >
-    Display images and other media.
+    Works in low-connectivity areas with local caching.
   </Card>
   <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
+    title="Multi-language support"
+    icon="language"
   >
-    Write once and reuse across your docs.
+    Available in Swahili and English for wider accessibility.
   </Card>
-</Columns>
+  <Card
+    title="Agro-vet integration"
+    icon="store"
+  >
+    Find nearby shops to purchase recommended pesticides and treatments.
+  </Card>
+  <Card
+    title="Weather predictions"
+    icon="cloud-sun"
+  >
+    Future enhancement for weather-based disease risk prediction.
+  </Card>
+</CardGroup>
 
-## Need inspiration?
+## Technology stack
 
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+AgriSense AI is built with cutting-edge technologies:
+
+- **Vertex AI Vision** - Image classification and disease detection
+- **Android Development Kit (ADK)** - Native mobile application
+- **Google Genkit** - AI-generated recommendations and advisory
+
+## Impact
+
+<AccordionGroup>
+  <Accordion icon="seedling" title="Reduce crop losses">
+    Early disease detection helps farmers take action before diseases spread, reducing crop losses significantly.
+  </Accordion>
+  <Accordion icon="chart-line" title="Improve yields">
+    Timely interventions and expert recommendations lead to healthier crops and better harvests.
+  </Accordion>
+  <Accordion icon="coins" title="Increase farmer income">
+    Better yields and reduced losses translate directly to improved income for smallholder farmers.
+  </Accordion>
+  <Accordion icon="users" title="Equitable access">
+    Provides agricultural expertise to farmers who lack access to extension officers.
+  </Accordion>
+</AccordionGroup>
+
+## Target users
+
+- **Smallholder farmers** - Primary users who need crop disease diagnostics
+- **Agro-vet shops** - Partners who provide treatments and supplies
+- **Agricultural extension officers** - Professionals who can scale their impact
